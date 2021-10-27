@@ -1,6 +1,7 @@
 package tengo_test
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"math"
@@ -1095,7 +1096,7 @@ export func() {
 func TestVMErrorUnwrap(t *testing.T) {
 	userErr := errors.New("user runtime error")
 	userFunc := func(err error) *tengo.UserFunction {
-		return &tengo.UserFunction{Name: "user_func", Value: func(args ...tengo.Object) (tengo.Object, error) {
+		return &tengo.UserFunction{Name: "user_func", Value: func(ctx context.Context, args ...tengo.Object) (tengo.Object, error) {
 			return nil, err
 		}}
 	}
@@ -1104,7 +1105,7 @@ func TestVMErrorUnwrap(t *testing.T) {
 			Attrs: map[string]tengo.Object{
 				"afunction": &tengo.UserFunction{
 					Name: "afunction",
-					Value: func(a ...tengo.Object) (tengo.Object, error) {
+					Value: func(ctx context.Context, a ...tengo.Object) (tengo.Object, error) {
 						return nil, err
 					},
 				},
@@ -2285,6 +2286,7 @@ func (o *StringArray) IndexSet(index, value tengo.Object) error {
 }
 
 func (o *StringArray) Call(
+	ctx context.Context,
 	args ...tengo.Object,
 ) (ret tengo.Object, err error) {
 	if len(args) != 1 {
@@ -2571,7 +2573,7 @@ func TestBuiltin(t *testing.T) {
 			Attrs: map[string]tengo.Object{
 				"abs": &tengo.UserFunction{
 					Name: "abs",
-					Value: func(a ...tengo.Object) (tengo.Object, error) {
+					Value: func(ctx context.Context, a ...tengo.Object) (tengo.Object, error) {
 						v, _ := tengo.ToFloat64(a[0])
 						return &tengo.Float{Value: math.Abs(v)}, nil
 					},
@@ -2777,7 +2779,7 @@ func TestModuleBlockScopes(t *testing.T) {
 			Attrs: map[string]tengo.Object{
 				"intn": &tengo.UserFunction{
 					Name: "abs",
-					Value: func(a ...tengo.Object) (tengo.Object, error) {
+					Value: func(ctx context.Context, a ...tengo.Object) (tengo.Object, error) {
 						v, _ := tengo.ToInt64(a[0])
 						return &tengo.Int{Value: rand.Int63n(v)}, nil
 					},
@@ -3845,7 +3847,7 @@ func traceCompileRun(
 
 	v = tengo.NewVM(bytecode, globals, maxAllocs)
 
-	err = v.Run()
+	err = v.Run(context.Background())
 	{
 		res = make(map[string]tengo.Object)
 		for name := range symbols {

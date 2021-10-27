@@ -2,6 +2,7 @@ package tengo
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"math"
 	"strconv"
@@ -73,7 +74,7 @@ type Object interface {
 
 	// Call should take an arbitrary number of arguments and returns a return
 	// value and/or an error, which the VM will consider as a run-time error.
-	Call(args ...Object) (ret Object, err error)
+	Call(ctx context.Context, args ...Object) (ret Object, err error)
 
 	// CanCall should return whether the Object can be Called.
 	CanCall() bool
@@ -139,7 +140,7 @@ func (o *ObjectImpl) CanIterate() bool {
 
 // Call takes an arbitrary number of arguments and returns a return value
 // and/or an error.
-func (o *ObjectImpl) Call(_ ...Object) (ret Object, err error) {
+func (o *ObjectImpl) Call(ctx context.Context, _ ...Object) (ret Object, err error) {
 	return nil, nil
 }
 
@@ -345,8 +346,8 @@ func (o *BuiltinFunction) Equals(_ Object) bool {
 }
 
 // Call executes a builtin function.
-func (o *BuiltinFunction) Call(args ...Object) (Object, error) {
-	return o.Value(args...)
+func (o *BuiltinFunction) Call(ctx context.Context, args ...Object) (Object, error) {
+	return o.Value(ctx, args...)
 }
 
 // CanCall returns whether the Object can be Called.
@@ -1603,8 +1604,8 @@ func (o *UserFunction) Equals(_ Object) bool {
 }
 
 // Call invokes a user function.
-func (o *UserFunction) Call(args ...Object) (Object, error) {
-	return o.Value(args...)
+func (o *UserFunction) Call(ctx context.Context, args ...Object) (Object, error) {
+	return o.Value(ctx, args...)
 }
 
 // CanCall returns whether the Object can be Called.

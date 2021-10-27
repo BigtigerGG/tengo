@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"time"
 
@@ -220,7 +221,7 @@ func runVM(
 	start := time.Now()
 
 	v := tengo.NewVM(bytecode, globals, -1)
-	if err := v.Run(); err != nil {
+	if err := v.Run(context.Background()); err != nil {
 		return time.Since(start), nil, err
 	}
 

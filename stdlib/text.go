@@ -1,6 +1,7 @@
 package stdlib
 
 import (
+	"context"
 	"fmt"
 	"regexp"
 	"strconv"
@@ -201,7 +202,7 @@ var textModule = map[string]tengo.Object{
 	}, // unquote(str) => string/error
 }
 
-func textREMatch(args ...tengo.Object) (ret tengo.Object, err error) {
+func textREMatch(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 2 {
 		err = tengo.ErrWrongNumArguments
 		return
@@ -242,7 +243,7 @@ func textREMatch(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func textREFind(args ...tengo.Object) (ret tengo.Object, err error) {
+func textREFind(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	numArgs := len(args)
 	if numArgs != 2 && numArgs != 3 {
 		err = tengo.ErrWrongNumArguments
@@ -332,7 +333,7 @@ func textREFind(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func textREReplace(args ...tengo.Object) (ret tengo.Object, err error) {
+func textREReplace(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 3 {
 		err = tengo.ErrWrongNumArguments
 		return
@@ -383,7 +384,7 @@ func textREReplace(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func textRESplit(args ...tengo.Object) (ret tengo.Object, err error) {
+func textRESplit(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	numArgs := len(args)
 	if numArgs != 2 && numArgs != 3 {
 		err = tengo.ErrWrongNumArguments
@@ -439,7 +440,7 @@ func textRESplit(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func textRECompile(args ...tengo.Object) (ret tengo.Object, err error) {
+func textRECompile(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 1 {
 		err = tengo.ErrWrongNumArguments
 		return
@@ -465,7 +466,7 @@ func textRECompile(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func textReplace(args ...tengo.Object) (ret tengo.Object, err error) {
+func textReplace(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 4 {
 		err = tengo.ErrWrongNumArguments
 		return
@@ -522,7 +523,7 @@ func textReplace(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func textSubstring(args ...tengo.Object) (ret tengo.Object, err error) {
+func textSubstring(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	argslen := len(args)
 	if argslen != 2 && argslen != 3 {
 		err = tengo.ErrWrongNumArguments
@@ -585,7 +586,7 @@ func textSubstring(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func textPadLeft(args ...tengo.Object) (ret tengo.Object, err error) {
+func textPadLeft(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	argslen := len(args)
 	if argslen != 2 && argslen != 3 {
 		err = tengo.ErrWrongNumArguments
@@ -648,7 +649,7 @@ func textPadLeft(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func textPadRight(args ...tengo.Object) (ret tengo.Object, err error) {
+func textPadRight(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	argslen := len(args)
 	if argslen != 2 && argslen != 3 {
 		err = tengo.ErrWrongNumArguments
@@ -711,7 +712,7 @@ func textPadRight(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func textRepeat(args ...tengo.Object) (ret tengo.Object, err error) {
+func textRepeat(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 2 {
 		return nil, tengo.ErrWrongNumArguments
 	}
@@ -741,7 +742,7 @@ func textRepeat(args ...tengo.Object) (ret tengo.Object, err error) {
 	return &tengo.String{Value: strings.Repeat(s1, i2)}, nil
 }
 
-func textJoin(args ...tengo.Object) (ret tengo.Object, err error) {
+func textJoin(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 2 {
 		return nil, tengo.ErrWrongNumArguments
 	}
@@ -800,7 +801,7 @@ func textJoin(args ...tengo.Object) (ret tengo.Object, err error) {
 	return &tengo.String{Value: strings.Join(ss1, s2)}, nil
 }
 
-func textFormatBool(args ...tengo.Object) (ret tengo.Object, err error) {
+func textFormatBool(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 1 {
 		err = tengo.ErrWrongNumArguments
 		return
@@ -825,7 +826,7 @@ func textFormatBool(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func textFormatFloat(args ...tengo.Object) (ret tengo.Object, err error) {
+func textFormatFloat(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 4 {
 		err = tengo.ErrWrongNumArguments
 		return
@@ -876,7 +877,7 @@ func textFormatFloat(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func textFormatInt(args ...tengo.Object) (ret tengo.Object, err error) {
+func textFormatInt(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 2 {
 		err = tengo.ErrWrongNumArguments
 		return
@@ -907,7 +908,7 @@ func textFormatInt(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func textParseBool(args ...tengo.Object) (ret tengo.Object, err error) {
+func textParseBool(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 1 {
 		err = tengo.ErrWrongNumArguments
 		return
@@ -938,7 +939,7 @@ func textParseBool(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func textParseFloat(args ...tengo.Object) (ret tengo.Object, err error) {
+func textParseFloat(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 2 {
 		err = tengo.ErrWrongNumArguments
 		return
@@ -975,7 +976,7 @@ func textParseFloat(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func textParseInt(args ...tengo.Object) (ret tengo.Object, err error) {
+func textParseInt(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 3 {
 		err = tengo.ErrWrongNumArguments
 		return

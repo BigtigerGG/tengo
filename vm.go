@@ -1,6 +1,7 @@
 package tengo
 
 import (
+	"context"
 	"fmt"
 	"sync/atomic"
 
@@ -65,7 +66,7 @@ func (v *VM) Abort() {
 }
 
 // Run starts the execution.
-func (v *VM) Run() (err error) {
+func (v *VM) Run(ctx context.Context) (err error) {
 	// reset VM states
 	v.sp = 0
 	v.curFrame = &(v.frames[0])
@@ -74,7 +75,7 @@ func (v *VM) Run() (err error) {
 	v.ip = -1
 	v.allocs = v.maxAllocs + 1
 
-	v.run()
+	v.run(ctx)
 	atomic.StoreInt64(&v.aborting, 0)
 	err = v.err
 	if err != nil {
@@ -94,7 +95,7 @@ func (v *VM) Run() (err error) {
 	return nil
 }
 
-func (v *VM) run() {
+func (v *VM) run(ctx context.Context) {
 	for atomic.LoadInt64(&v.aborting) == 0 {
 		v.ip++
 
@@ -630,7 +631,7 @@ func (v *VM) run() {
 			} else {
 				var args []Object
 				args = append(args, v.stack[v.sp-numArgs:v.sp]...)
-				ret, e := value.Call(args...)
+				ret, e := value.Call(ctx, args...)
 				v.sp -= numArgs + 1
 
 				// runtime error
@@ -672,16 +673,16 @@ func (v *VM) run() {
 			} else {
 				retVal = UndefinedValue
 			}
-			//v.sp--
+			// v.sp--
 			v.framesIndex--
 			v.curFrame = &v.frames[v.framesIndex-1]
 			v.curInsts = v.curFrame.fn.Instructions
 			v.ip = v.curFrame.ip
-			//v.sp = lastFrame.basePointer - 1
+			// v.sp = lastFrame.basePointer - 1
 			v.sp = v.frames[v.framesIndex].basePointer
 			// skip stack overflow check because (newSP) <= (oldSP)
 			v.stack[v.sp-1] = retVal
-			//v.sp++
+			// v.sp++
 		case parser.OpDefineLocal:
 			v.ip++
 			localIndex := int(v.curInsts[v.ip])

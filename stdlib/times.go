@@ -1,6 +1,7 @@
 package stdlib
 
 import (
+	"context"
 	"time"
 
 	"github.com/d5/tengo/v2"
@@ -182,7 +183,7 @@ var timesModule = map[string]tengo.Object{
 	}, // to_utc(time) => time
 }
 
-func timesSleep(args ...tengo.Object) (ret tengo.Object, err error) {
+func timesSleep(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 1 {
 		err = tengo.ErrWrongNumArguments
 		return
@@ -204,7 +205,7 @@ func timesSleep(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func timesParseDuration(args ...tengo.Object) (
+func timesParseDuration(_ context.Context, args ...tengo.Object) (
 	ret tengo.Object,
 	err error,
 ) {
@@ -234,7 +235,7 @@ func timesParseDuration(args ...tengo.Object) (
 	return
 }
 
-func timesSince(args ...tengo.Object) (
+func timesSince(_ context.Context, args ...tengo.Object) (
 	ret tengo.Object,
 	err error,
 ) {
@@ -258,7 +259,7 @@ func timesSince(args ...tengo.Object) (
 	return
 }
 
-func timesUntil(args ...tengo.Object) (
+func timesUntil(_ context.Context, args ...tengo.Object) (
 	ret tengo.Object,
 	err error,
 ) {
@@ -282,7 +283,7 @@ func timesUntil(args ...tengo.Object) (
 	return
 }
 
-func timesDurationHours(args ...tengo.Object) (
+func timesDurationHours(_ context.Context, args ...tengo.Object) (
 	ret tengo.Object,
 	err error,
 ) {
@@ -306,7 +307,7 @@ func timesDurationHours(args ...tengo.Object) (
 	return
 }
 
-func timesDurationMinutes(args ...tengo.Object) (
+func timesDurationMinutes(_ context.Context, args ...tengo.Object) (
 	ret tengo.Object,
 	err error,
 ) {
@@ -330,7 +331,7 @@ func timesDurationMinutes(args ...tengo.Object) (
 	return
 }
 
-func timesDurationNanoseconds(args ...tengo.Object) (
+func timesDurationNanoseconds(_ context.Context, args ...tengo.Object) (
 	ret tengo.Object,
 	err error,
 ) {
@@ -354,7 +355,7 @@ func timesDurationNanoseconds(args ...tengo.Object) (
 	return
 }
 
-func timesDurationSeconds(args ...tengo.Object) (
+func timesDurationSeconds(_ context.Context, args ...tengo.Object) (
 	ret tengo.Object,
 	err error,
 ) {
@@ -378,7 +379,7 @@ func timesDurationSeconds(args ...tengo.Object) (
 	return
 }
 
-func timesDurationString(args ...tengo.Object) (
+func timesDurationString(_ context.Context, args ...tengo.Object) (
 	ret tengo.Object,
 	err error,
 ) {
@@ -402,7 +403,7 @@ func timesDurationString(args ...tengo.Object) (
 	return
 }
 
-func timesMonthString(args ...tengo.Object) (
+func timesMonthString(_ context.Context, args ...tengo.Object) (
 	ret tengo.Object,
 	err error,
 ) {
@@ -426,7 +427,7 @@ func timesMonthString(args ...tengo.Object) (
 	return
 }
 
-func timesDate(args ...tengo.Object) (
+func timesDate(_ context.Context, args ...tengo.Object) (
 	ret tengo.Object,
 	err error,
 ) {
@@ -507,7 +508,7 @@ func timesDate(args ...tengo.Object) (
 	return
 }
 
-func timesNow(args ...tengo.Object) (ret tengo.Object, err error) {
+func timesNow(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 0 {
 		err = tengo.ErrWrongNumArguments
 		return
@@ -518,7 +519,7 @@ func timesNow(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func timesParse(args ...tengo.Object) (ret tengo.Object, err error) {
+func timesParse(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 2 {
 		err = tengo.ErrWrongNumArguments
 		return
@@ -555,7 +556,7 @@ func timesParse(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func timesUnix(args ...tengo.Object) (ret tengo.Object, err error) {
+func timesUnix(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 2 {
 		err = tengo.ErrWrongNumArguments
 		return
@@ -586,7 +587,7 @@ func timesUnix(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func timesAdd(args ...tengo.Object) (ret tengo.Object, err error) {
+func timesAdd(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 2 {
 		err = tengo.ErrWrongNumArguments
 		return
@@ -617,7 +618,7 @@ func timesAdd(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func timesSub(args ...tengo.Object) (ret tengo.Object, err error) {
+func timesSub(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 2 {
 		err = tengo.ErrWrongNumArguments
 		return
@@ -648,7 +649,7 @@ func timesSub(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func timesAddDate(args ...tengo.Object) (ret tengo.Object, err error) {
+func timesAddDate(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 4 {
 		err = tengo.ErrWrongNumArguments
 		return
@@ -699,7 +700,7 @@ func timesAddDate(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func timesAfter(args ...tengo.Object) (ret tengo.Object, err error) {
+func timesAfter(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 2 {
 		err = tengo.ErrWrongNumArguments
 		return
@@ -734,7 +735,7 @@ func timesAfter(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func timesBefore(args ...tengo.Object) (ret tengo.Object, err error) {
+func timesBefore(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 2 {
 		err = tengo.ErrWrongNumArguments
 		return
@@ -769,7 +770,7 @@ func timesBefore(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func timesTimeYear(args ...tengo.Object) (ret tengo.Object, err error) {
+func timesTimeYear(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 1 {
 		err = tengo.ErrWrongNumArguments
 		return
@@ -790,7 +791,7 @@ func timesTimeYear(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func timesTimeMonth(args ...tengo.Object) (ret tengo.Object, err error) {
+func timesTimeMonth(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 1 {
 		err = tengo.ErrWrongNumArguments
 		return
@@ -811,7 +812,7 @@ func timesTimeMonth(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func timesTimeDay(args ...tengo.Object) (ret tengo.Object, err error) {
+func timesTimeDay(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 1 {
 		err = tengo.ErrWrongNumArguments
 		return
@@ -832,7 +833,7 @@ func timesTimeDay(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func timesTimeWeekday(args ...tengo.Object) (ret tengo.Object, err error) {
+func timesTimeWeekday(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 1 {
 		err = tengo.ErrWrongNumArguments
 		return
@@ -853,7 +854,7 @@ func timesTimeWeekday(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func timesTimeHour(args ...tengo.Object) (ret tengo.Object, err error) {
+func timesTimeHour(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 1 {
 		err = tengo.ErrWrongNumArguments
 		return
@@ -874,7 +875,7 @@ func timesTimeHour(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func timesTimeMinute(args ...tengo.Object) (ret tengo.Object, err error) {
+func timesTimeMinute(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 1 {
 		err = tengo.ErrWrongNumArguments
 		return
@@ -895,7 +896,7 @@ func timesTimeMinute(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func timesTimeSecond(args ...tengo.Object) (ret tengo.Object, err error) {
+func timesTimeSecond(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 1 {
 		err = tengo.ErrWrongNumArguments
 		return
@@ -916,7 +917,7 @@ func timesTimeSecond(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func timesTimeNanosecond(args ...tengo.Object) (
+func timesTimeNanosecond(_ context.Context, args ...tengo.Object) (
 	ret tengo.Object,
 	err error,
 ) {
@@ -940,7 +941,7 @@ func timesTimeNanosecond(args ...tengo.Object) (
 	return
 }
 
-func timesTimeUnix(args ...tengo.Object) (ret tengo.Object, err error) {
+func timesTimeUnix(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 1 {
 		err = tengo.ErrWrongNumArguments
 		return
@@ -961,7 +962,7 @@ func timesTimeUnix(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func timesTimeUnixNano(args ...tengo.Object) (
+func timesTimeUnixNano(_ context.Context, args ...tengo.Object) (
 	ret tengo.Object,
 	err error,
 ) {
@@ -985,7 +986,7 @@ func timesTimeUnixNano(args ...tengo.Object) (
 	return
 }
 
-func timesTimeFormat(args ...tengo.Object) (ret tengo.Object, err error) {
+func timesTimeFormat(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 2 {
 		err = tengo.ErrWrongNumArguments
 		return
@@ -1022,7 +1023,7 @@ func timesTimeFormat(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func timesIsZero(args ...tengo.Object) (ret tengo.Object, err error) {
+func timesIsZero(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 1 {
 		err = tengo.ErrWrongNumArguments
 		return
@@ -1047,7 +1048,7 @@ func timesIsZero(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func timesToLocal(args ...tengo.Object) (ret tengo.Object, err error) {
+func timesToLocal(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 1 {
 		err = tengo.ErrWrongNumArguments
 		return
@@ -1068,7 +1069,7 @@ func timesToLocal(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func timesToUTC(args ...tengo.Object) (ret tengo.Object, err error) {
+func timesToUTC(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 1 {
 		err = tengo.ErrWrongNumArguments
 		return
@@ -1089,7 +1090,7 @@ func timesToUTC(args ...tengo.Object) (ret tengo.Object, err error) {
 	return
 }
 
-func timesTimeLocation(args ...tengo.Object) (
+func timesTimeLocation(_ context.Context, args ...tengo.Object) (
 	ret tengo.Object,
 	err error,
 ) {
@@ -1113,7 +1114,7 @@ func timesTimeLocation(args ...tengo.Object) (
 	return
 }
 
-func timesTimeString(args ...tengo.Object) (ret tengo.Object, err error) {
+func timesTimeString(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 1 {
 		err = tengo.ErrWrongNumArguments
 		return

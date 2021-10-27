@@ -1,6 +1,7 @@
 package stdlib_test
 
 import (
+	"context"
 	"errors"
 	"strconv"
 	"strings"
@@ -562,7 +563,7 @@ func funcCall(
 	args ...tengo.Object,
 ) (tengo.Object, error) {
 	userFunc := &tengo.UserFunction{Value: fn}
-	return userFunc.Call(args...)
+	return userFunc.Call(context.Background(), args...)
 }
 
 func array(elements ...tengo.Object) *tengo.Array {

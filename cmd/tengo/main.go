@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"bytes"
+	"context"
 	"flag"
 	"fmt"
 	"io"
@@ -141,7 +142,7 @@ func CompileAndRun(
 	}
 
 	machine := tengo.NewVM(bytecode, nil, -1)
-	err = machine.Run()
+	err = machine.Run(context.Background())
 	return
 }
 
@@ -154,7 +155,7 @@ func RunCompiled(modules *tengo.ModuleMap, data []byte) (err error) {
 	}
 
 	machine := tengo.NewVM(bytecode, nil, -1)
-	err = machine.Run()
+	err = machine.Run(context.Background())
 	return
 }
 
@@ -172,7 +173,7 @@ func RunREPL(modules *tengo.ModuleMap, in io.Reader, out io.Writer) {
 	symbol := symbolTable.Define("__repl_println__")
 	globals[symbol.Index] = &tengo.UserFunction{
 		Name: "println",
-		Value: func(args ...tengo.Object) (ret tengo.Object, err error) {
+		Value: func(ctx context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 			var printArgs []interface{}
 			for _, arg := range args {
 				if _, isUndefined := arg.(*tengo.Undefined); isUndefined {
@@ -214,7 +215,7 @@ func RunREPL(modules *tengo.ModuleMap, in io.Reader, out io.Writer) {
 
 		bytecode := c.Bytecode()
 		machine := tengo.NewVM(bytecode, globals, -1)
-		if err := machine.Run(); err != nil {
+		if err := machine.Run(context.Background()); err != nil {
 			_, _ = fmt.Fprintln(out, err.Error())
 			continue
 		}

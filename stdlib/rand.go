@@ -1,6 +1,7 @@
 package stdlib
 
 import (
+	"context"
 	"math/rand"
 
 	"github.com/d5/tengo/v2"
@@ -37,7 +38,7 @@ var randModule = map[string]tengo.Object{
 	},
 	"read": &tengo.UserFunction{
 		Name: "read",
-		Value: func(args ...tengo.Object) (ret tengo.Object, err error) {
+		Value: func(ctx context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 			if len(args) != 1 {
 				return nil, tengo.ErrWrongNumArguments
 			}
@@ -59,7 +60,7 @@ var randModule = map[string]tengo.Object{
 	},
 	"rand": &tengo.UserFunction{
 		Name: "rand",
-		Value: func(args ...tengo.Object) (tengo.Object, error) {
+		Value: func(ctx context.Context, args ...tengo.Object) (tengo.Object, error) {
 			if len(args) != 1 {
 				return nil, tengo.ErrWrongNumArguments
 			}
@@ -110,7 +111,7 @@ func randRand(r *rand.Rand) *tengo.ImmutableMap {
 			},
 			"read": &tengo.UserFunction{
 				Name: "read",
-				Value: func(args ...tengo.Object) (
+				Value: func(ctx context.Context, args ...tengo.Object) (
 					ret tengo.Object,
 					err error,
 				) {

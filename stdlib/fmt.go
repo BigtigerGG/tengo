@@ -1,6 +1,7 @@
 package stdlib
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/d5/tengo/v2"
@@ -13,8 +14,8 @@ var fmtModule = map[string]tengo.Object{
 	"sprintf": &tengo.UserFunction{Name: "sprintf", Value: fmtSprintf},
 }
 
-func fmtPrint(args ...tengo.Object) (ret tengo.Object, err error) {
-	printArgs, err := getPrintArgs(args...)
+func fmtPrint(ctx context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
+	printArgs, err := getPrintArgs(ctx, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -22,7 +23,7 @@ func fmtPrint(args ...tengo.Object) (ret tengo.Object, err error) {
 	return nil, nil
 }
 
-func fmtPrintf(args ...tengo.Object) (ret tengo.Object, err error) {
+func fmtPrintf(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	numArgs := len(args)
 	if numArgs == 0 {
 		return nil, tengo.ErrWrongNumArguments
@@ -49,8 +50,8 @@ func fmtPrintf(args ...tengo.Object) (ret tengo.Object, err error) {
 	return nil, nil
 }
 
-func fmtPrintln(args ...tengo.Object) (ret tengo.Object, err error) {
-	printArgs, err := getPrintArgs(args...)
+func fmtPrintln(ctx context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
+	printArgs, err := getPrintArgs(ctx, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -59,7 +60,7 @@ func fmtPrintln(args ...tengo.Object) (ret tengo.Object, err error) {
 	return nil, nil
 }
 
-func fmtSprintf(args ...tengo.Object) (ret tengo.Object, err error) {
+func fmtSprintf(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	numArgs := len(args)
 	if numArgs == 0 {
 		return nil, tengo.ErrWrongNumArguments
@@ -84,7 +85,7 @@ func fmtSprintf(args ...tengo.Object) (ret tengo.Object, err error) {
 	return &tengo.String{Value: s}, nil
 }
 
-func getPrintArgs(args ...tengo.Object) ([]interface{}, error) {
+func getPrintArgs(_ context.Context, args ...tengo.Object) ([]interface{}, error) {
 	var printArgs []interface{}
 	l := 0
 	for _, arg := range args {
