@@ -11,7 +11,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/d5/tengo/v2"
+	"github.com/BigtigerGG/tengo"
 )
 
 // CallArgs holds function name to be executed and its required parameters with
@@ -69,7 +69,7 @@ func (mod *GoProxy) CallChan() chan<- *CallArgs {
 	return mod.callChan
 }
 
-func (mod *GoProxy) next(args ...tengo.Object) (tengo.Object, error) {
+func (mod *GoProxy) next(ctx context.Context, args ...tengo.Object) (tengo.Object, error) {
 	mod.mtx.Lock()
 	defer mod.mtx.Unlock()
 	select {
@@ -83,7 +83,7 @@ func (mod *GoProxy) next(args ...tengo.Object) (tengo.Object, error) {
 	}
 }
 
-func (mod *GoProxy) register(args ...tengo.Object) (tengo.Object, error) {
+func (mod *GoProxy) register(ctx context.Context, args ...tengo.Object) (tengo.Object, error) {
 	if len(args) == 0 {
 		return nil, tengo.ErrWrongNumArguments
 	}
@@ -105,7 +105,7 @@ func (mod *GoProxy) register(args ...tengo.Object) (tengo.Object, error) {
 	return tengo.UndefinedValue, nil
 }
 
-func (mod *GoProxy) args(args ...tengo.Object) (tengo.Object, error) {
+func (mod *GoProxy) args(ctx context.Context, args ...tengo.Object) (tengo.Object, error) {
 	mod.mtx.Lock()
 	defer mod.mtx.Unlock()
 
@@ -134,7 +134,7 @@ func (mod *GoProxy) args(args ...tengo.Object) (tengo.Object, error) {
 	return &tengo.ImmutableMap{
 		Value: map[string]tengo.Object{
 			"result": &tengo.UserFunction{
-				Value: func(args ...tengo.Object) (tengo.Object, error) {
+				Value: func(ctx context.Context, args ...tengo.Object) (tengo.Object, error) {
 					if len(args) > 0 {
 						callArgs.Result <- args[0]
 						return tengo.UndefinedValue, nil

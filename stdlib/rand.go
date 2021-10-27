@@ -4,7 +4,7 @@ import (
 	"context"
 	"math/rand"
 
-	"github.com/d5/tengo/v2"
+	"github.com/BigtigerGG/tengo"
 )
 
 var randModule = map[string]tengo.Object{

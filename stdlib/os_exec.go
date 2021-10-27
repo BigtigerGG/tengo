@@ -4,7 +4,7 @@ import (
 	"context"
 	"os/exec"
 
-	"github.com/d5/tengo/v2"
+	"github.com/BigtigerGG/tengo"
 )
 
 func makeOSExecCommand(cmd *exec.Cmd) *tengo.ImmutableMap {

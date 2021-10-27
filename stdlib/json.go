@@ -5,8 +5,8 @@ import (
 	"context"
 	gojson "encoding/json"
 
-	"github.com/d5/tengo/v2"
-	"github.com/d5/tengo/v2/stdlib/json"
+	"github.com/BigtigerGG/tengo"
+	"github.com/BigtigerGG/tengo/stdlib/json"
 )
 
 var jsonModule = map[string]tengo.Object{

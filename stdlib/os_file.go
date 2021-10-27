@@ -4,7 +4,7 @@ import (
 	"context"
 	"os"
 
-	"github.com/d5/tengo/v2"
+	"github.com/BigtigerGG/tengo"
 )
 
 func makeOSFile(file *os.File) *tengo.ImmutableMap {

@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/d5/tengo/v2"
+	"github.com/BigtigerGG/tengo"
 )
 
 var timesModule = map[string]tengo.Object{

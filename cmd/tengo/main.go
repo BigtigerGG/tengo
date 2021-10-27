@@ -12,9 +12,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/d5/tengo/v2"
-	"github.com/d5/tengo/v2/parser"
-	"github.com/d5/tengo/v2/stdlib"
+	"github.com/BigtigerGG/tengo"
+	"github.com/BigtigerGG/tengo/parser"
+	"github.com/BigtigerGG/tengo/stdlib"
 )
 
 const (
