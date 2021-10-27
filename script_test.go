@@ -21,7 +21,7 @@ func TestScript_Add(t *testing.T) {
 	require.NoError(t, s.Add("b", 5))     // b = 5
 	require.NoError(t, s.Add("b", "foo")) // b = "foo"  (re-define before compilation)
 	require.NoError(t, s.Add("test",
-		func(args ...tengo.Object) (ret tengo.Object, err error) {
+		func(ctx context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 			if len(args) > 0 {
 				switch arg := args[0].(type) {
 				case *tengo.Int:
