@@ -1,9 +1,10 @@
 package stdlib
 
 import (
+	"context"
 	"os"
 
-	"github.com/d5/tengo/v2"
+	"github.com/BigtigerGG/tengo"
 )
 
 func makeOSFile(file *os.File) *tengo.ImmutableMap {
@@ -57,7 +58,7 @@ func makeOSFile(file *os.File) *tengo.ImmutableMap {
 			// chmod(mode int) => error
 			"chmod": &tengo.UserFunction{
 				Name: "chmod",
-				Value: func(args ...tengo.Object) (tengo.Object, error) {
+				Value: func(ctx context.Context, args ...tengo.Object) (tengo.Object, error) {
 					if len(args) != 1 {
 						return nil, tengo.ErrWrongNumArguments
 					}
@@ -75,7 +76,7 @@ func makeOSFile(file *os.File) *tengo.ImmutableMap {
 			// seek(offset int, whence int) => int/error
 			"seek": &tengo.UserFunction{
 				Name: "seek",
-				Value: func(args ...tengo.Object) (tengo.Object, error) {
+				Value: func(ctx context.Context, args ...tengo.Object) (tengo.Object, error) {
 					if len(args) != 2 {
 						return nil, tengo.ErrWrongNumArguments
 					}
@@ -105,11 +106,11 @@ func makeOSFile(file *os.File) *tengo.ImmutableMap {
 			// stat() => imap(fileinfo)/error
 			"stat": &tengo.UserFunction{
 				Name: "stat",
-				Value: func(args ...tengo.Object) (tengo.Object, error) {
+				Value: func(ctx context.Context, args ...tengo.Object) (tengo.Object, error) {
 					if len(args) != 0 {
 						return nil, tengo.ErrWrongNumArguments
 					}
-					return osStat(&tengo.String{Value: file.Name()})
+					return osStat(ctx, &tengo.String{Value: file.Name()})
 				},
 			},
 		},

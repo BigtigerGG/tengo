@@ -1,14 +1,15 @@
 package stdlib_test
 
 import (
+	"context"
 	"errors"
 	"strconv"
 	"strings"
 	"testing"
 
-	"github.com/d5/tengo/v2"
-	"github.com/d5/tengo/v2/require"
-	"github.com/d5/tengo/v2/stdlib"
+	"github.com/BigtigerGG/tengo"
+	"github.com/BigtigerGG/tengo/require"
+	"github.com/BigtigerGG/tengo/stdlib"
 )
 
 func TestFuncAIR(t *testing.T) {
@@ -562,7 +563,7 @@ func funcCall(
 	args ...tengo.Object,
 ) (tengo.Object, error) {
 	userFunc := &tengo.UserFunction{Value: fn}
-	return userFunc.Call(args...)
+	return userFunc.Call(context.Background(), args...)
 }
 
 func array(elements ...tengo.Object) *tengo.Array {

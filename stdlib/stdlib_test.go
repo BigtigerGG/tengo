@@ -1,13 +1,14 @@
 package stdlib_test
 
 import (
+	"context"
 	"fmt"
 	"testing"
 	"time"
 
-	"github.com/d5/tengo/v2"
-	"github.com/d5/tengo/v2/require"
-	"github.com/d5/tengo/v2/stdlib"
+	"github.com/BigtigerGG/tengo"
+	"github.com/BigtigerGG/tengo/require"
+	"github.com/BigtigerGG/tengo/stdlib"
 )
 
 type ARR = []interface{}
@@ -101,6 +102,7 @@ type callres struct {
 }
 
 func (c callres) call(funcName string, args ...interface{}) callres {
+	ctx := context.Background()
 	if c.e != nil {
 		return c
 	}
@@ -124,10 +126,10 @@ func (c callres) call(funcName string, args ...interface{}) callres {
 				"non-callable: %s", funcName)}
 		}
 
-		res, err := f.Value(oargs...)
+		res, err := f.Value(ctx, oargs...)
 		return callres{t: c.t, o: res, e: err}
 	case *tengo.UserFunction:
-		res, err := o.Value(oargs...)
+		res, err := o.Value(ctx, oargs...)
 		return callres{t: c.t, o: res, e: err}
 	case *tengo.ImmutableMap:
 		m, ok := o.Value[funcName]
@@ -140,7 +142,7 @@ func (c callres) call(funcName string, args ...interface{}) callres {
 			return callres{t: c.t, e: fmt.Errorf("non-callable: %s", funcName)}
 		}
 
-		res, err := f.Value(oargs...)
+		res, err := f.Value(ctx, oargs...)
 		return callres{t: c.t, o: res, e: err}
 	default:
 		panic(fmt.Errorf("unexpected object: %v (%T)", o, o))
@@ -233,7 +235,7 @@ func object(v interface{}) tengo.Object {
 func expect(t *testing.T, input string, expected interface{}) {
 	s := tengo.NewScript([]byte(input))
 	s.SetImports(stdlib.GetModuleMap(stdlib.AllModuleNames()...))
-	c, err := s.Run()
+	c, err := s.Run(context.Background())
 	require.NoError(t, err)
 	require.NotNil(t, c)
 	v := c.Get("out")

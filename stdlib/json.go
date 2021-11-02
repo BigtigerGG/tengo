@@ -2,10 +2,11 @@ package stdlib
 
 import (
 	"bytes"
+	"context"
 	gojson "encoding/json"
 
-	"github.com/d5/tengo/v2"
-	"github.com/d5/tengo/v2/stdlib/json"
+	"github.com/BigtigerGG/tengo"
+	"github.com/BigtigerGG/tengo/stdlib/json"
 )
 
 var jsonModule = map[string]tengo.Object{
@@ -27,7 +28,7 @@ var jsonModule = map[string]tengo.Object{
 	},
 }
 
-func jsonDecode(args ...tengo.Object) (ret tengo.Object, err error) {
+func jsonDecode(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 1 {
 		return nil, tengo.ErrWrongNumArguments
 	}
@@ -58,7 +59,7 @@ func jsonDecode(args ...tengo.Object) (ret tengo.Object, err error) {
 	}
 }
 
-func jsonEncode(args ...tengo.Object) (ret tengo.Object, err error) {
+func jsonEncode(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 1 {
 		return nil, tengo.ErrWrongNumArguments
 	}
@@ -71,7 +72,7 @@ func jsonEncode(args ...tengo.Object) (ret tengo.Object, err error) {
 	return &tengo.Bytes{Value: b}, nil
 }
 
-func jsonIndent(args ...tengo.Object) (ret tengo.Object, err error) {
+func jsonIndent(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 3 {
 		return nil, tengo.ErrWrongNumArguments
 	}
@@ -122,7 +123,7 @@ func jsonIndent(args ...tengo.Object) (ret tengo.Object, err error) {
 	}
 }
 
-func jsonHTMLEscape(args ...tengo.Object) (ret tengo.Object, err error) {
+func jsonHTMLEscape(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 1 {
 		return nil, tengo.ErrWrongNumArguments
 	}

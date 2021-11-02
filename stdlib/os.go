@@ -1,13 +1,14 @@
 package stdlib
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"io/ioutil"
 	"os"
 	"os/exec"
 
-	"github.com/d5/tengo/v2"
+	"github.com/BigtigerGG/tengo"
 )
 
 var osModule = map[string]tengo.Object{
@@ -200,7 +201,7 @@ var osModule = map[string]tengo.Object{
 	}, // readfile(name) => array(byte)/error
 }
 
-func osReadFile(args ...tengo.Object) (ret tengo.Object, err error) {
+func osReadFile(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 1 {
 		return nil, tengo.ErrWrongNumArguments
 	}
@@ -222,7 +223,7 @@ func osReadFile(args ...tengo.Object) (ret tengo.Object, err error) {
 	return &tengo.Bytes{Value: bytes}, nil
 }
 
-func osStat(args ...tengo.Object) (ret tengo.Object, err error) {
+func osStat(_ context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 	if len(args) != 1 {
 		return nil, tengo.ErrWrongNumArguments
 	}
@@ -254,7 +255,7 @@ func osStat(args ...tengo.Object) (ret tengo.Object, err error) {
 	return fstat, nil
 }
 
-func osCreate(args ...tengo.Object) (tengo.Object, error) {
+func osCreate(_ context.Context, args ...tengo.Object) (tengo.Object, error) {
 	if len(args) != 1 {
 		return nil, tengo.ErrWrongNumArguments
 	}
@@ -273,7 +274,7 @@ func osCreate(args ...tengo.Object) (tengo.Object, error) {
 	return makeOSFile(res), nil
 }
 
-func osOpen(args ...tengo.Object) (tengo.Object, error) {
+func osOpen(_ context.Context, args ...tengo.Object) (tengo.Object, error) {
 	if len(args) != 1 {
 		return nil, tengo.ErrWrongNumArguments
 	}
@@ -292,7 +293,7 @@ func osOpen(args ...tengo.Object) (tengo.Object, error) {
 	return makeOSFile(res), nil
 }
 
-func osOpenFile(args ...tengo.Object) (tengo.Object, error) {
+func osOpenFile(_ context.Context, args ...tengo.Object) (tengo.Object, error) {
 	if len(args) != 3 {
 		return nil, tengo.ErrWrongNumArguments
 	}
@@ -327,7 +328,7 @@ func osOpenFile(args ...tengo.Object) (tengo.Object, error) {
 	return makeOSFile(res), nil
 }
 
-func osArgs(args ...tengo.Object) (tengo.Object, error) {
+func osArgs(_ context.Context, args ...tengo.Object) (tengo.Object, error) {
 	if len(args) != 0 {
 		return nil, tengo.ErrWrongNumArguments
 	}
@@ -347,7 +348,7 @@ func osFuncASFmRE(
 ) *tengo.UserFunction {
 	return &tengo.UserFunction{
 		Name: name,
-		Value: func(args ...tengo.Object) (tengo.Object, error) {
+		Value: func(_ context.Context, args ...tengo.Object) (tengo.Object, error) {
 			if len(args) != 2 {
 				return nil, tengo.ErrWrongNumArguments
 			}
@@ -372,7 +373,7 @@ func osFuncASFmRE(
 	}
 }
 
-func osLookupEnv(args ...tengo.Object) (tengo.Object, error) {
+func osLookupEnv(_ context.Context, args ...tengo.Object) (tengo.Object, error) {
 	if len(args) != 1 {
 		return nil, tengo.ErrWrongNumArguments
 	}
@@ -394,7 +395,7 @@ func osLookupEnv(args ...tengo.Object) (tengo.Object, error) {
 	return &tengo.String{Value: res}, nil
 }
 
-func osExpandEnv(args ...tengo.Object) (tengo.Object, error) {
+func osExpandEnv(_ context.Context, args ...tengo.Object) (tengo.Object, error) {
 	if len(args) != 1 {
 		return nil, tengo.ErrWrongNumArguments
 	}
@@ -429,7 +430,7 @@ func osExpandEnv(args ...tengo.Object) (tengo.Object, error) {
 	return &tengo.String{Value: s}, nil
 }
 
-func osExec(args ...tengo.Object) (tengo.Object, error) {
+func osExec(_ context.Context, args ...tengo.Object) (tengo.Object, error) {
 	if len(args) == 0 {
 		return nil, tengo.ErrWrongNumArguments
 	}
@@ -456,7 +457,7 @@ func osExec(args ...tengo.Object) (tengo.Object, error) {
 	return makeOSExecCommand(exec.Command(name, execArgs...)), nil
 }
 
-func osFindProcess(args ...tengo.Object) (tengo.Object, error) {
+func osFindProcess(_ context.Context, args ...tengo.Object) (tengo.Object, error) {
 	if len(args) != 1 {
 		return nil, tengo.ErrWrongNumArguments
 	}
@@ -475,7 +476,7 @@ func osFindProcess(args ...tengo.Object) (tengo.Object, error) {
 	return makeOSProcess(proc), nil
 }
 
-func osStartProcess(args ...tengo.Object) (tengo.Object, error) {
+func osStartProcess(_ context.Context, args ...tengo.Object) (tengo.Object, error) {
 	if len(args) != 4 {
 		return nil, tengo.ErrWrongNumArguments
 	}

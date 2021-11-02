@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"sync"
 
-	"github.com/d5/tengo/v2/parser"
+	"github.com/BigtigerGG/tengo/parser"
 )
 
 // Script can simplify compilation and execution of embedded scripts.
@@ -143,12 +143,12 @@ func (s *Script) Compile() (*Compiled, error) {
 
 // Run compiles and runs the scripts. Use returned compiled object to access
 // global variables.
-func (s *Script) Run() (compiled *Compiled, err error) {
+func (s *Script) Run(ctx context.Context) (compiled *Compiled, err error) {
 	compiled, err = s.Compile()
 	if err != nil {
 		return
 	}
-	err = compiled.Run()
+	err = compiled.Run(ctx)
 	return
 }
 
@@ -203,12 +203,12 @@ type Compiled struct {
 }
 
 // Run executes the compiled script in the virtual machine.
-func (c *Compiled) Run() error {
+func (c *Compiled) Run(ctx context.Context) error {
 	c.lock.Lock()
 	defer c.lock.Unlock()
 
 	v := NewVM(c.bytecode, c.globals, c.maxAllocs)
-	return v.Run()
+	return v.Run(ctx)
 }
 
 // RunContext is like Run but includes a context.
@@ -219,7 +219,7 @@ func (c *Compiled) RunContext(ctx context.Context) (err error) {
 	v := NewVM(c.bytecode, c.globals, c.maxAllocs)
 	ch := make(chan error, 1)
 	go func() {
-		ch <- v.Run()
+		ch <- v.Run(ctx)
 	}()
 
 	select {

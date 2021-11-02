@@ -1,5 +1,7 @@
 package tengo
 
+import "context"
+
 var builtinFuncs = []*BuiltinFunction{
 	{
 		Name:  "len",
@@ -132,14 +134,14 @@ func GetAllBuiltinFunctions() []*BuiltinFunction {
 	return append([]*BuiltinFunction{}, builtinFuncs...)
 }
 
-func builtinTypeName(args ...Object) (Object, error) {
+func builtinTypeName(_ context.Context, args ...Object) (Object, error) {
 	if len(args) != 1 {
 		return nil, ErrWrongNumArguments
 	}
 	return &String{Value: args[0].TypeName()}, nil
 }
 
-func builtinIsString(args ...Object) (Object, error) {
+func builtinIsString(_ context.Context, args ...Object) (Object, error) {
 	if len(args) != 1 {
 		return nil, ErrWrongNumArguments
 	}
@@ -149,7 +151,7 @@ func builtinIsString(args ...Object) (Object, error) {
 	return FalseValue, nil
 }
 
-func builtinIsInt(args ...Object) (Object, error) {
+func builtinIsInt(_ context.Context, args ...Object) (Object, error) {
 	if len(args) != 1 {
 		return nil, ErrWrongNumArguments
 	}
@@ -159,7 +161,7 @@ func builtinIsInt(args ...Object) (Object, error) {
 	return FalseValue, nil
 }
 
-func builtinIsFloat(args ...Object) (Object, error) {
+func builtinIsFloat(_ context.Context, args ...Object) (Object, error) {
 	if len(args) != 1 {
 		return nil, ErrWrongNumArguments
 	}
@@ -169,7 +171,7 @@ func builtinIsFloat(args ...Object) (Object, error) {
 	return FalseValue, nil
 }
 
-func builtinIsBool(args ...Object) (Object, error) {
+func builtinIsBool(_ context.Context, args ...Object) (Object, error) {
 	if len(args) != 1 {
 		return nil, ErrWrongNumArguments
 	}
@@ -179,7 +181,7 @@ func builtinIsBool(args ...Object) (Object, error) {
 	return FalseValue, nil
 }
 
-func builtinIsChar(args ...Object) (Object, error) {
+func builtinIsChar(_ context.Context, args ...Object) (Object, error) {
 	if len(args) != 1 {
 		return nil, ErrWrongNumArguments
 	}
@@ -189,7 +191,7 @@ func builtinIsChar(args ...Object) (Object, error) {
 	return FalseValue, nil
 }
 
-func builtinIsBytes(args ...Object) (Object, error) {
+func builtinIsBytes(_ context.Context, args ...Object) (Object, error) {
 	if len(args) != 1 {
 		return nil, ErrWrongNumArguments
 	}
@@ -199,7 +201,7 @@ func builtinIsBytes(args ...Object) (Object, error) {
 	return FalseValue, nil
 }
 
-func builtinIsArray(args ...Object) (Object, error) {
+func builtinIsArray(_ context.Context, args ...Object) (Object, error) {
 	if len(args) != 1 {
 		return nil, ErrWrongNumArguments
 	}
@@ -209,7 +211,7 @@ func builtinIsArray(args ...Object) (Object, error) {
 	return FalseValue, nil
 }
 
-func builtinIsImmutableArray(args ...Object) (Object, error) {
+func builtinIsImmutableArray(_ context.Context, args ...Object) (Object, error) {
 	if len(args) != 1 {
 		return nil, ErrWrongNumArguments
 	}
@@ -219,7 +221,7 @@ func builtinIsImmutableArray(args ...Object) (Object, error) {
 	return FalseValue, nil
 }
 
-func builtinIsMap(args ...Object) (Object, error) {
+func builtinIsMap(_ context.Context, args ...Object) (Object, error) {
 	if len(args) != 1 {
 		return nil, ErrWrongNumArguments
 	}
@@ -229,7 +231,7 @@ func builtinIsMap(args ...Object) (Object, error) {
 	return FalseValue, nil
 }
 
-func builtinIsImmutableMap(args ...Object) (Object, error) {
+func builtinIsImmutableMap(_ context.Context, args ...Object) (Object, error) {
 	if len(args) != 1 {
 		return nil, ErrWrongNumArguments
 	}
@@ -239,7 +241,7 @@ func builtinIsImmutableMap(args ...Object) (Object, error) {
 	return FalseValue, nil
 }
 
-func builtinIsTime(args ...Object) (Object, error) {
+func builtinIsTime(_ context.Context, args ...Object) (Object, error) {
 	if len(args) != 1 {
 		return nil, ErrWrongNumArguments
 	}
@@ -249,7 +251,7 @@ func builtinIsTime(args ...Object) (Object, error) {
 	return FalseValue, nil
 }
 
-func builtinIsError(args ...Object) (Object, error) {
+func builtinIsError(_ context.Context, args ...Object) (Object, error) {
 	if len(args) != 1 {
 		return nil, ErrWrongNumArguments
 	}
@@ -259,7 +261,7 @@ func builtinIsError(args ...Object) (Object, error) {
 	return FalseValue, nil
 }
 
-func builtinIsUndefined(args ...Object) (Object, error) {
+func builtinIsUndefined(_ context.Context, args ...Object) (Object, error) {
 	if len(args) != 1 {
 		return nil, ErrWrongNumArguments
 	}
@@ -269,7 +271,7 @@ func builtinIsUndefined(args ...Object) (Object, error) {
 	return FalseValue, nil
 }
 
-func builtinIsFunction(args ...Object) (Object, error) {
+func builtinIsFunction(_ context.Context, args ...Object) (Object, error) {
 	if len(args) != 1 {
 		return nil, ErrWrongNumArguments
 	}
@@ -280,7 +282,7 @@ func builtinIsFunction(args ...Object) (Object, error) {
 	return FalseValue, nil
 }
 
-func builtinIsCallable(args ...Object) (Object, error) {
+func builtinIsCallable(_ context.Context, args ...Object) (Object, error) {
 	if len(args) != 1 {
 		return nil, ErrWrongNumArguments
 	}
@@ -290,7 +292,7 @@ func builtinIsCallable(args ...Object) (Object, error) {
 	return FalseValue, nil
 }
 
-func builtinIsIterable(args ...Object) (Object, error) {
+func builtinIsIterable(_ context.Context, args ...Object) (Object, error) {
 	if len(args) != 1 {
 		return nil, ErrWrongNumArguments
 	}
@@ -301,7 +303,7 @@ func builtinIsIterable(args ...Object) (Object, error) {
 }
 
 // len(obj object) => int
-func builtinLen(args ...Object) (Object, error) {
+func builtinLen(_ context.Context, args ...Object) (Object, error) {
 	if len(args) != 1 {
 		return nil, ErrWrongNumArguments
 	}
@@ -327,8 +329,8 @@ func builtinLen(args ...Object) (Object, error) {
 	}
 }
 
-//range(start, stop[, step])
-func builtinRange(args ...Object) (Object, error) {
+// range(start, stop[, step])
+func builtinRange(_ context.Context, args ...Object) (Object, error) {
 	numArgs := len(args)
 	if numArgs < 2 || numArgs > 3 {
 		return nil, ErrWrongNumArguments
@@ -392,7 +394,7 @@ func buildRange(start, stop, step int64) *Array {
 	return array
 }
 
-func builtinFormat(args ...Object) (Object, error) {
+func builtinFormat(_ context.Context, args ...Object) (Object, error) {
 	numArgs := len(args)
 	if numArgs == 0 {
 		return nil, ErrWrongNumArguments
@@ -416,14 +418,14 @@ func builtinFormat(args ...Object) (Object, error) {
 	return &String{Value: s}, nil
 }
 
-func builtinCopy(args ...Object) (Object, error) {
+func builtinCopy(_ context.Context, args ...Object) (Object, error) {
 	if len(args) != 1 {
 		return nil, ErrWrongNumArguments
 	}
 	return args[0].Copy(), nil
 }
 
-func builtinString(args ...Object) (Object, error) {
+func builtinString(_ context.Context, args ...Object) (Object, error) {
 	argsLen := len(args)
 	if !(argsLen == 1 || argsLen == 2) {
 		return nil, ErrWrongNumArguments
@@ -444,7 +446,7 @@ func builtinString(args ...Object) (Object, error) {
 	return UndefinedValue, nil
 }
 
-func builtinInt(args ...Object) (Object, error) {
+func builtinInt(_ context.Context, args ...Object) (Object, error) {
 	argsLen := len(args)
 	if !(argsLen == 1 || argsLen == 2) {
 		return nil, ErrWrongNumArguments
@@ -462,7 +464,7 @@ func builtinInt(args ...Object) (Object, error) {
 	return UndefinedValue, nil
 }
 
-func builtinFloat(args ...Object) (Object, error) {
+func builtinFloat(_ context.Context, args ...Object) (Object, error) {
 	argsLen := len(args)
 	if !(argsLen == 1 || argsLen == 2) {
 		return nil, ErrWrongNumArguments
@@ -480,7 +482,7 @@ func builtinFloat(args ...Object) (Object, error) {
 	return UndefinedValue, nil
 }
 
-func builtinBool(args ...Object) (Object, error) {
+func builtinBool(_ context.Context, args ...Object) (Object, error) {
 	if len(args) != 1 {
 		return nil, ErrWrongNumArguments
 	}
@@ -497,7 +499,7 @@ func builtinBool(args ...Object) (Object, error) {
 	return UndefinedValue, nil
 }
 
-func builtinChar(args ...Object) (Object, error) {
+func builtinChar(_ context.Context, args ...Object) (Object, error) {
 	argsLen := len(args)
 	if !(argsLen == 1 || argsLen == 2) {
 		return nil, ErrWrongNumArguments
@@ -515,7 +517,7 @@ func builtinChar(args ...Object) (Object, error) {
 	return UndefinedValue, nil
 }
 
-func builtinBytes(args ...Object) (Object, error) {
+func builtinBytes(_ context.Context, args ...Object) (Object, error) {
 	argsLen := len(args)
 	if !(argsLen == 1 || argsLen == 2) {
 		return nil, ErrWrongNumArguments
@@ -541,7 +543,7 @@ func builtinBytes(args ...Object) (Object, error) {
 	return UndefinedValue, nil
 }
 
-func builtinTime(args ...Object) (Object, error) {
+func builtinTime(_ context.Context, args ...Object) (Object, error) {
 	argsLen := len(args)
 	if !(argsLen == 1 || argsLen == 2) {
 		return nil, ErrWrongNumArguments
@@ -560,7 +562,7 @@ func builtinTime(args ...Object) (Object, error) {
 }
 
 // append(arr, items...)
-func builtinAppend(args ...Object) (Object, error) {
+func builtinAppend(_ context.Context, args ...Object) (Object, error) {
 	if len(args) < 2 {
 		return nil, ErrWrongNumArguments
 	}
@@ -581,7 +583,7 @@ func builtinAppend(args ...Object) (Object, error) {
 // builtinDelete deletes Map keys
 // usage: delete(map, "key")
 // key must be a string
-func builtinDelete(args ...Object) (Object, error) {
+func builtinDelete(_ context.Context, args ...Object) (Object, error) {
 	argsLen := len(args)
 	if argsLen != 2 {
 		return nil, ErrWrongNumArguments
@@ -609,7 +611,7 @@ func builtinDelete(args ...Object) (Object, error) {
 // builtinSplice deletes and changes given Array, returns deleted items.
 // usage:
 // deleted_items := splice(array[,start[,delete_count[,item1[,item2[,...]]]])
-func builtinSplice(args ...Object) (Object, error) {
+func builtinSplice(_ context.Context, args ...Object) (Object, error) {
 	argsLen := len(args)
 	if argsLen == 0 {
 		return nil, ErrWrongNumArguments

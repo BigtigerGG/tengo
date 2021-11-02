@@ -10,10 +10,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/d5/tengo/v2"
-	"github.com/d5/tengo/v2/require"
-	"github.com/d5/tengo/v2/stdlib"
-	"github.com/d5/tengo/v2/token"
+	"github.com/BigtigerGG/tengo"
+	"github.com/BigtigerGG/tengo/require"
+	"github.com/BigtigerGG/tengo/stdlib"
+	"github.com/BigtigerGG/tengo/token"
 )
 
 func TestScript_Add(t *testing.T) {
@@ -21,7 +21,7 @@ func TestScript_Add(t *testing.T) {
 	require.NoError(t, s.Add("b", 5))     // b = 5
 	require.NoError(t, s.Add("b", "foo")) // b = "foo"  (re-define before compilation)
 	require.NoError(t, s.Add("test",
-		func(args ...tengo.Object) (ret tengo.Object, err error) {
+		func(ctx context.Context, args ...tengo.Object) (ret tengo.Object, err error) {
 			if len(args) > 0 {
 				switch arg := args[0].(type) {
 				case *tengo.Int:
@@ -33,7 +33,7 @@ func TestScript_Add(t *testing.T) {
 		}))
 	c, err := s.Compile()
 	require.NoError(t, err)
-	require.NoError(t, c.Run())
+	require.NoError(t, c.Run(context.Background()))
 	require.Equal(t, "foo", c.Get("a").Value())
 	require.Equal(t, "foo", c.Get("b").Value())
 	require.Equal(t, int64(0), c.Get("c").Value())
@@ -53,7 +53,7 @@ func TestScript_Run(t *testing.T) {
 	s := tengo.NewScript([]byte(`a := b`))
 	err := s.Add("b", 5)
 	require.NoError(t, err)
-	c, err := s.Run()
+	c, err := s.Run(context.Background())
 	require.NoError(t, err)
 	require.NotNil(t, c)
 	compiledGet(t, c, "a", int64(5))
@@ -62,22 +62,22 @@ func TestScript_Run(t *testing.T) {
 func TestScript_BuiltinModules(t *testing.T) {
 	s := tengo.NewScript([]byte(`math := import("math"); a := math.abs(-19.84)`))
 	s.SetImports(stdlib.GetModuleMap("math"))
-	c, err := s.Run()
+	c, err := s.Run(context.Background())
 	require.NoError(t, err)
 	require.NotNil(t, c)
 	compiledGet(t, c, "a", 19.84)
 
-	c, err = s.Run()
+	c, err = s.Run(context.Background())
 	require.NoError(t, err)
 	require.NotNil(t, c)
 	compiledGet(t, c, "a", 19.84)
 
 	s.SetImports(stdlib.GetModuleMap("os"))
-	_, err = s.Run()
+	_, err = s.Run(context.Background())
 	require.Error(t, err)
 
 	s.SetImports(nil)
-	_, err = s.Run()
+	_, err = s.Run(context.Background())
 	require.Error(t, err)
 }
 
@@ -89,13 +89,13 @@ a := enum.all([1,2,3], func(_, v) {
 })
 `))
 	s.SetImports(stdlib.GetModuleMap("enum"))
-	c, err := s.Run()
+	c, err := s.Run(context.Background())
 	require.NoError(t, err)
 	require.NotNil(t, c)
 	compiledGet(t, c, "a", true)
 
 	s.SetImports(nil)
-	_, err = s.Run()
+	_, err = s.Run(context.Background())
 	require.Error(t, err)
 }
 
@@ -172,7 +172,7 @@ e := mod1.double(s)
 `)
 	mod1 := map[string]tengo.Object{
 		"double": &tengo.UserFunction{
-			Value: func(args ...tengo.Object) (
+			Value: func(ctx context.Context, args ...tengo.Object) (
 				ret tengo.Object,
 				err error,
 			) {
@@ -197,7 +197,7 @@ e := mod1.double(s)
 		_ = compiled.Set("a", a)
 		_ = compiled.Set("b", b)
 		_ = compiled.Set("c", c)
-		err := compiled.Run()
+		err := compiled.Run(context.Background())
 		require.NoError(t, err)
 		d = compiled.Get("d").Int()
 		e = compiled.Get("e").Int()
@@ -279,7 +279,7 @@ func (o *Counter) Copy() tengo.Object {
 	return &Counter{value: o.value}
 }
 
-func (o *Counter) Call(_ ...tengo.Object) (tengo.Object, error) {
+func (o *Counter) Call(ctx context.Context, _ ...tengo.Object) (tengo.Object, error) {
 	return &tengo.Int{Value: o.value}, nil
 }
 
@@ -329,7 +329,7 @@ func TestScriptSourceModule(t *testing.T) {
 	mods := tengo.NewModuleMap()
 	mods.AddSourceModule("mod", []byte(`export 5`))
 	scr.SetImports(mods)
-	c, err := scr.Run()
+	c, err := scr.Run(context.Background())
 	require.NoError(t, err)
 	require.Equal(t, int64(5), c.Get("out").Value())
 
@@ -339,7 +339,7 @@ func TestScriptSourceModule(t *testing.T) {
 	mods.AddSourceModule("mod",
 		[]byte(`a := 3; export func() { return a + 5 }`))
 	scr.SetImports(mods)
-	c, err = scr.Run()
+	c, err = scr.Run(context.Background())
 	require.NoError(t, err)
 	require.Equal(t, int64(8), c.Get("out").Value())
 
@@ -351,17 +351,17 @@ func TestScriptSourceModule(t *testing.T) {
 		map[string]tengo.Object{
 			"title": &tengo.UserFunction{
 				Name: "title",
-				Value: func(args ...tengo.Object) (tengo.Object, error) {
+				Value: func(ctx context.Context, args ...tengo.Object) (tengo.Object, error) {
 					s, _ := tengo.ToString(args[0])
 					return &tengo.String{Value: strings.Title(s)}, nil
 				}},
 		})
 	scr.SetImports(mods)
-	c, err = scr.Run()
+	c, err = scr.Run(context.Background())
 	require.NoError(t, err)
 	require.Equal(t, "Foo", c.Get("out").Value())
 	scr.SetImports(nil)
-	_, err = scr.Run()
+	_, err = scr.Run(context.Background())
 	require.Error(t, err)
 }
 
@@ -389,7 +389,7 @@ func bench(n int, input string) {
 	}
 
 	for i := 0; i < n; i++ {
-		if err := c.Run(); err != nil {
+		if err := c.Run(context.Background()); err != nil {
 			panic(err)
 		}
 	}
@@ -503,7 +503,7 @@ func compileError(t *testing.T, input string, vars M) {
 }
 
 func compiledRun(t *testing.T, c *tengo.Compiled) {
-	err := c.Run()
+	err := c.Run(context.Background())
 	require.NoError(t, err)
 }
 

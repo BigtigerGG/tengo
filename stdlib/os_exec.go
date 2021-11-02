@@ -1,9 +1,10 @@
 package stdlib
 
 import (
+	"context"
 	"os/exec"
 
-	"github.com/d5/tengo/v2"
+	"github.com/BigtigerGG/tengo"
 )
 
 func makeOSExecCommand(cmd *exec.Cmd) *tengo.ImmutableMap {
@@ -37,7 +38,7 @@ func makeOSExecCommand(cmd *exec.Cmd) *tengo.ImmutableMap {
 			// set_path(path string)
 			"set_path": &tengo.UserFunction{
 				Name: "set_path",
-				Value: func(args ...tengo.Object) (tengo.Object, error) {
+				Value: func(ctx context.Context, args ...tengo.Object) (tengo.Object, error) {
 					if len(args) != 1 {
 						return nil, tengo.ErrWrongNumArguments
 					}
@@ -56,7 +57,7 @@ func makeOSExecCommand(cmd *exec.Cmd) *tengo.ImmutableMap {
 			// set_dir(dir string)
 			"set_dir": &tengo.UserFunction{
 				Name: "set_dir",
-				Value: func(args ...tengo.Object) (tengo.Object, error) {
+				Value: func(ctx context.Context, args ...tengo.Object) (tengo.Object, error) {
 					if len(args) != 1 {
 						return nil, tengo.ErrWrongNumArguments
 					}
@@ -75,7 +76,7 @@ func makeOSExecCommand(cmd *exec.Cmd) *tengo.ImmutableMap {
 			// set_env(env array(string))
 			"set_env": &tengo.UserFunction{
 				Name: "set_env",
-				Value: func(args ...tengo.Object) (tengo.Object, error) {
+				Value: func(ctx context.Context, args ...tengo.Object) (tengo.Object, error) {
 					if len(args) != 1 {
 						return nil, tengo.ErrWrongNumArguments
 					}
@@ -107,7 +108,7 @@ func makeOSExecCommand(cmd *exec.Cmd) *tengo.ImmutableMap {
 			// process() => imap(process)
 			"process": &tengo.UserFunction{
 				Name: "process",
-				Value: func(args ...tengo.Object) (tengo.Object, error) {
+				Value: func(ctx context.Context, args ...tengo.Object) (tengo.Object, error) {
 					if len(args) != 0 {
 						return nil, tengo.ErrWrongNumArguments
 					}

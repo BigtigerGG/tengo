@@ -1,9 +1,10 @@
 package stdlib
 
 import (
+	"context"
 	"regexp"
 
-	"github.com/d5/tengo/v2"
+	"github.com/BigtigerGG/tengo"
 )
 
 func makeTextRegexp(re *regexp.Regexp) *tengo.ImmutableMap {
@@ -11,7 +12,7 @@ func makeTextRegexp(re *regexp.Regexp) *tengo.ImmutableMap {
 		Value: map[string]tengo.Object{
 			// match(text) => bool
 			"match": &tengo.UserFunction{
-				Value: func(args ...tengo.Object) (
+				Value: func(ctx context.Context, args ...tengo.Object) (
 					ret tengo.Object,
 					err error,
 				) {
@@ -43,7 +44,7 @@ func makeTextRegexp(re *regexp.Regexp) *tengo.ImmutableMap {
 			// find(text) 			=> array(array({text:,begin:,end:}))/undefined
 			// find(text, maxCount) => array(array({text:,begin:,end:}))/undefined
 			"find": &tengo.UserFunction{
-				Value: func(args ...tengo.Object) (
+				Value: func(ctx context.Context, args ...tengo.Object) (
 					ret tengo.Object,
 					err error,
 				) {
@@ -137,7 +138,7 @@ func makeTextRegexp(re *regexp.Regexp) *tengo.ImmutableMap {
 
 			// replace(src, repl) => string
 			"replace": &tengo.UserFunction{
-				Value: func(args ...tengo.Object) (
+				Value: func(ctx context.Context, args ...tengo.Object) (
 					ret tengo.Object,
 					err error,
 				) {
@@ -180,7 +181,7 @@ func makeTextRegexp(re *regexp.Regexp) *tengo.ImmutableMap {
 			// split(text) 			 => array(string)
 			// split(text, maxCount) => array(string)
 			"split": &tengo.UserFunction{
-				Value: func(args ...tengo.Object) (
+				Value: func(ctx context.Context, args ...tengo.Object) (
 					ret tengo.Object,
 					err error,
 				) {
